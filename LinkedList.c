@@ -32,31 +32,34 @@ void insEnd(struct node **headRef, int item)
     lastNode->next = newNode;
 }
 
-void delBeg(struct node **headRef)
+void delNode(struct node** head_ref, int key)
 {
-    if (*headRef == NULL)
-    {
+    struct node *temp = (*head_ref), *prev;
+ 
+    if (temp != NULL && temp->data == key) {
+        (*head_ref) = temp->next; 
+        free(temp); 
         return;
     }
-    struct node *del = *headRef;
-    *headRef = del->next;
-    free(del);
+ 
+    while (temp != NULL && temp->data != key) {
+        prev = temp;
+        temp = temp->next;
+    }
+ 
+    if (temp == NULL)
+        return;
+ 
+    prev->next = temp->next;
+ 
+    free(temp); 
 }
 
-void delEnd(struct node **headRef)
-{
-    struct node *delL = (*headRef);
-    while (delL->next->next != NULL)
-    {
-        delL = delL->next;
-    }
-    struct node *last = delL->next;
-    delL->next = NULL;
-    free(last);
-}
+
 
 void printList(struct node *nodes)
 {
+    printf("Items present in list\n");
     while (nodes)
     {
         printf("%d\t", nodes->data);
@@ -66,17 +69,21 @@ void printList(struct node *nodes)
 
 int main()
 {
-
+    int n;
     insBeg(&head, 10);
     insBeg(&head, 20);
-    insBeg(&head, 20);
-
+    insBeg(&head, 120);
+    insBeg(&head, 80);
+    insBeg(&head, 40);
+    insBeg(&head, 50);
     insEnd(&head, 30);
-
-    delBeg(&head);
-
-    delEnd(&head);
-
     printList(head);
+
+    printf("\nEnter the item to be removed: ");
+    scanf("%d", &n);
+    delNode(&head, n);
+    
+    printList(head);
+
     return 0;
 }
