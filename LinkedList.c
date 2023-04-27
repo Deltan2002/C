@@ -83,6 +83,8 @@ int main()
     scanf("%d", &n);
     delNode(&head, n);
     
+    reverse(&head);
+
     printList(head);
 
     return 0;
