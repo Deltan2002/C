@@ -1,88 +1,97 @@
-
-#include <stdio.h>
-#include <stdlib.h>
-struct node
-{
+#include<stdio.h>
+#include<stdlib.h>
+#include <stdbool.h>
+struct node{
     int data;
     struct node *next;
-};
-struct node *head = NULL;
-void insBeg(struct node **headRef, int item)
-{
-    struct node *newNode = (struct node *)malloc(sizeof(struct node));
-    if (newNode == NULL)
-        return;
-    newNode->data = item;
-    newNode->next = (*headRef);
-    (*headRef) = newNode;
-}
-
-void insEnd(struct node **headRef, int item)
-{
-    struct node *newNode = (struct node *)malloc(sizeof(struct node));
-    newNode->data = item;
-    newNode->next = NULL;
-
-    struct node *lastNode = (*headRef);
-
-    while (lastNode->next != NULL)
-    {
-        lastNode = lastNode->next;
-    }
-    lastNode->next = newNode;
-}
-
-
-
-void delNode(struct node** head_ref, int key)
-{
-    struct node *temp = (*head_ref), *prev;
-    if (temp != NULL && temp->data == key) {
-        (*head_ref) = temp->next; 
-        free(temp); 
-        return;
-    }
-    while (temp != NULL && temp->data != key) {
-        prev = temp;
-        temp = temp->next;
-    }
-    if (temp == NULL)
-        return;
-    prev->next = temp->next;
-    free(temp); 
-}
-
-
-
-void printList(struct node *nodes)
-{
-    printf("Items present in list\n");
-    while (nodes)
-    {
-        printf("%d\t", nodes->data);
-        nodes = nodes->next;
-    }
-}
-
-int main()
-{
-    int n;
-    insBeg(&head, 10);
-    insBeg(&head, 20);
-    insBeg(&head, 120);
-    insBeg(&head, 80);
-    insBeg(&head, 40);
-    insBeg(&head, 50);
-    insEnd(&head, 30);
-    printList(head);
-
-    printf("\nEnter the item to be removed: ");
-    scanf("%d", &n);
-    delNode(&head, n);
     
-    reverse(&head);
+};
 
-    printList(head);
+void push(struct node **headref,int item){
+    if(headref==NULL)
+    return;
+    struct node *newNode = (struct node*)malloc(sizeof(struct node));
+    newNode->data =item;
+    newNode->next=*headref;
+    *headref=newNode;
+}
 
-    return 0;
+void display(struct node *n){
+    if(n==NULL)
+    return;
+    while(n){
+        printf("%d\t",n->data);
+        n=n->next;
+    }
+}
+
+
+void pop(struct node **headref,int item){
+    if(*headref==NULL)
+        return;
+    struct node *temp = *headref,*prev;
+    if(temp->data==item){
+        *headref = (*headref)->next;
+        free(temp);
+        return;
+    }
+    while(temp->data!=item){
+       prev=temp;
+       temp = temp->next;
+   }
+   prev->next=temp->next;
+   free(temp);
+}
+
+void reverse(struct node *head){
+    struct node *rev = head;
+    if(head==NULL)
+    return;
+    reverse(rev->next);
+    printf("%d\t",rev->data);
+}
+
+
+int count(struct node *head){
+    int count =0;
+    
+    while(head!=NULL){
+        count++;
+        head=head->next;
+    
+    }
+   return count++;
+}
+
+bool search(struct node *head, int x)
+{
+    struct node* current = head; 
+    while (current != NULL) {
+        if (current->data == x)
+            return true;
+        current = current->next;
+    }
+    return false;
+}
+
+int main(){
+    struct node *head = NULL;
+    
+    push(&head,10);
+    push(&head,20);
+    push(&head,30);
+    push(&head,40);
+    push(&head,40);
+
+display(head);
+
+search(head, 10) ? printf("Yes\n") : printf("No\n");
+
+int c = count(head);
+printf("Number of elements in list are: %d\n",c);
+
+// pop(&head,40);
+// reverse(head);
+
+return 0;
 }
