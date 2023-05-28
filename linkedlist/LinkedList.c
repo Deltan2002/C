@@ -26,6 +26,20 @@ void display(struct node *n){
 }
 
 
+void pushEnd(struct node **headref,int data){
+    if(headref == NULL)
+    return;
+    struct node *newNode = (struct node *)malloc(sizeof(struct node));
+    struct node *end = *headref;
+    while(end->next!=NULL){
+        
+    end=end->next;
+    
+    }
+    newNode->data=data;
+    end->next=newNode;
+}
+
 void pop(struct node **headref,int item){
     if(*headref==NULL)
         return;
