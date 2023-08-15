@@ -8,8 +8,6 @@ struct node{
 };
 
 void push(struct node **headref,int item){
-    if(headref==NULL)
-    return;
     struct node *newNode = (struct node*)malloc(sizeof(struct node));
     newNode->data =item;
     newNode->next=*headref;
